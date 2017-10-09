@@ -121,7 +121,7 @@ $app->register(\SwaggerLume\ServiceProvider::class);
 // Call the LumenPassport::routes method within the boot method of your application.
 // This method will register the routes necessary to issue access tokens
 // and revoke access tokens, clients, and personal access tokens:
-Dusterio\LumenPassport\LumenPassport::routes($app->router);
+Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/oauth']);
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
