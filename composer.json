@@ -26,7 +26,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Utils/Helpers/LaravelHelper.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

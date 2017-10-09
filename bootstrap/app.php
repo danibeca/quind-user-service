@@ -24,11 +24,16 @@ $app = new Laravel\Lumen\Application(
 );
 
 //$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
-//$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
+//$app->instance('config_path', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 
-$app->withFacades(true, [
-    'Illuminate\Support\Facades\Notification' => 'Notification',
-]);
+$app->withFacades();
+/*$app->withFacades(true, [
+    'Illuminate\Support\Facades\Request' => 'Request',
+    'Spatie\Activitylog\ActivitylogFacade' => 'Activity'
+
+]);*/
+
+//'Illuminate\Support\Facades\Notification' => 'Notification',
 
 $app->withEloquent();
 
@@ -71,6 +76,7 @@ $app->singleton(
 $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
      'cors' => \Barryvdh\Cors\HandleCors::class,
+     'log' => App\Http\Middleware\LogActivity::class
  ]);
 
 
@@ -111,6 +117,8 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(\SwaggerLume\ServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 
+$app->register(Spatie\Activitylog\ActivitylogServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -125,7 +133,7 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 // Call the LumenPassport::routes method within the boot method of your application.
 // This method will register the routes necessary to issue access tokens
 // and revoke access tokens, clients, and personal access tokens:
-Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/oauth']);
+Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/oauth', 'middleware' => ['cors', 'log']]);
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
