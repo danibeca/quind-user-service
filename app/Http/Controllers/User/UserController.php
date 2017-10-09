@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
+
 class UserController extends ApiController
 {
     public function index()
     {
+
         /** @var User $user */
         $user = Auth::user();
         if ($user->can('index', $user))
@@ -38,10 +40,11 @@ class UserController extends ApiController
 
 
         }else{
-            $existingUser = new User ($request->except('password', 'password_confirmation'));
-            $existingUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-            $existingUser->save();
-            return $this->respondResourceCreated();
+            $newUser = new User ($request->except('password', 'password_confirmation'));
+            $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
+            $newUser->save();
+            $newUser->roles()->attach(2);
+            return $this->respondResourceCreated($newUser);
         }
     }
 
