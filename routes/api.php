@@ -13,7 +13,7 @@
 */
 
 $router->group([
-    'prefix'    => 'api/v1'] , function () use ($router) {
+    'prefix'    => 'api/v1', 'middleware' => 'cors'] , function () use ($router) {
 
     $router->post('users/', ['uses' => 'User\UserController@store']);
     $router->post('password/email', ['uses' => 'Auth\ForgotPasswordController@getResetToken']);

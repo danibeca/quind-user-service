@@ -70,6 +70,7 @@ $app->singleton(
 
 $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
+     'cors' => \Barryvdh\Cors\HandleCors::class,
  ]);
 
 
@@ -86,6 +87,7 @@ $app->routeMiddleware([
 
 $app->configure('swagger-lume');
 $app->configure('mail');
+$app->configure('cors');
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -107,6 +109,8 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 
 $app->register(\SwaggerLume\ServiceProvider::class);
+$app->register(Barryvdh\Cors\ServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
