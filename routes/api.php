@@ -21,6 +21,10 @@ $router->group([
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
 
+        $router->get('user/', function (){
+            return Auth::user();
+        });
+
         $router->group([
             'prefix'    => '/users',
             'namespace' => 'User'], function () use ($router) {

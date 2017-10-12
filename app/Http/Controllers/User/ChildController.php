@@ -39,7 +39,7 @@ class ChildController extends ApiController
         {
             $existingUser = new User ($request->except('password', 'password_confirmation'));
             $existingUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-            $existingUser->appendToNode($user)->save();
+            $existingUser->appendToNode($user);
             $existingUser->save();
             User::fixTree();
 
