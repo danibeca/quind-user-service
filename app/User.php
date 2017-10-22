@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Utils\Helpers\NodeTraitExt;
+use App\Utils\Notifications\ResetPasswordNotification;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -12,8 +13,10 @@ use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as ResetContract;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+
+class User extends Model implements AuthenticatableContract, ResetContract, AuthorizableContract
 {
     use HasApiTokens, Authenticatable, Authorizable, SoftDeletes, NodeTraitExt, CanResetPassword, Notifiable;
 

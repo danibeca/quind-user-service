@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Foundation\Auth;
+namespace App\Utils\Illuminate;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -101,11 +101,11 @@ trait ResetsPasswords
     protected function resetPassword($user, $password)
     {
         $user->forceFill([
-            'password' => bcrypt($password),
+            'password' => password_hash($password, PASSWORD_BCRYPT),
             'remember_token' => Str::random(60),
         ])->save();
 
-        $this->guard()->login($user);
+        return true;
     }
 
     /**

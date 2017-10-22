@@ -1,8 +1,8 @@
 <?php
-namespace Agilin\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ApiController;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Utils\Illuminate\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -20,15 +20,6 @@ class ResetPasswordController extends ApiController {
      */
     use ResetsPasswords;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
 
     /**
      * Reset the given user's password.

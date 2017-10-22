@@ -1,10 +1,12 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
+try
+{
+    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+} catch (Dotenv\Exception\InvalidPathException $e)
+{
     //
 }
 
@@ -20,13 +22,13 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 //$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 //$app->instance('config_path', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 
-$app->withFacades();
+$app->withFacades(true);
 /*$app->withFacades(true, [
     'Illuminate\Support\Facades\Request' => 'Request',
     'Spatie\Activitylog\ActivitylogFacade' => 'Activity'
@@ -74,10 +76,10 @@ $app->singleton(
 // ]);
 
 $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
-     'cors' => \Barryvdh\Cors\HandleCors::class,
-     'log' => App\Http\Middleware\LogActivity::class
- ]);
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'cors' => \Barryvdh\Cors\HandleCors::class,
+    'log'  => App\Http\Middleware\LogActivity::class
+]);
 
 
 /*
@@ -94,6 +96,7 @@ $app->routeMiddleware([
 $app->configure('swagger-lume');
 $app->configure('mail');
 $app->configure('cors');
+$app->configure('services');
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -107,6 +110,7 @@ $app->configure('cors');
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(\Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 // Register auth service providers - original one and Lumen adapter
@@ -116,8 +120,14 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(\SwaggerLume\ServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 
-$app->register(Spatie\Activitylog\ActivitylogServiceProvider::class);
+
+$app->register(Sichikawa\LaravelSendgridDriver\MailServiceProvider::class);
+
+$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -138,10 +148,8 @@ Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/api.php';
+    require __DIR__ . '/../routes/api.php';
 });
-
-
 
 
 return $app;
