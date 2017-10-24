@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d7fa4d27ab8d7ca83687b1f39410307",
+    "content-hash": "53ba082abbfc89c904163628ebdf9b81",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -1757,16 +1757,16 @@
         },
         {
             "name": "illuminate/notifications",
-            "version": "v5.5.0",
+            "version": "v5.5.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/notifications.git",
-                "reference": "b117d700caa1f8ea51c693b1dfd33281e3d10427"
+                "reference": "a16d4cc70b58733a43c30b5c2d0bdc5d97e85418"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/notifications/zipball/b117d700caa1f8ea51c693b1dfd33281e3d10427",
-                "reference": "b117d700caa1f8ea51c693b1dfd33281e3d10427",
+                "url": "https://api.github.com/repos/illuminate/notifications/zipball/a16d4cc70b58733a43c30b5c2d0bdc5d97e85418",
+                "reference": "a16d4cc70b58733a43c30b5c2d0bdc5d97e85418",
                 "shasum": ""
             },
             "require": {
@@ -1809,7 +1809,7 @@
             ],
             "description": "The Illuminate Notifications package.",
             "homepage": "https://laravel.com",
-            "time": "2017-08-21T18:48:14+00:00"
+            "time": "2017-10-08T14:12:48+00:00"
         },
         {
             "name": "illuminate/pagination",
@@ -2910,16 +2910,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa"
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/34a7699e6f31b1ef4035ee36444407cecf9f56aa",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
                 "shasum": ""
             },
             "require": {
@@ -2998,7 +2998,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-06-05T06:31:10+00:00"
+            "time": "2017-10-23T05:04:54+00:00"
         },
         {
             "name": "psr/container",
