@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function index(User $user)
     {
-        return $user->roles->where('id', 1)->count() > 0;
+        return $user->roles->where('id', 1)->get()->count() > 0;
     }
 
     /**

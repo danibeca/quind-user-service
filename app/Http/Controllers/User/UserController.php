@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController
 {
+    public function getAuthUser()
+    {
+
+        /** @var User $user */
+        $user = Auth::user();
+        return $this->respond(User::with('roles')->whereId($user->id)->get()->first());
+    }
+
     public function index()
     {
 

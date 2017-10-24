@@ -21,9 +21,7 @@ $router->group([
 
     $router->group(['middleware' => 'auth'], function () use ($router) {
 
-        $router->get('user/', function (){
-            return Auth::user();
-        });
+        $router->get('user/',  ['uses' => 'User\UserController@getAuthUser']);
 
         $router->group([
             'prefix'    => '/users',
@@ -41,5 +39,16 @@ $router->group([
                 $router->post('/', ['as' => 'child.create', 'uses' => 'ChildController@store']);
                 $router->get('/{id:[\d]+}', ['as' => 'children.show', 'uses' => 'ChildController@show']);
         });
+
+        $router->group([
+            'prefix'    => '/roles',
+            'namespace' => 'Role'], function () use ($router) {
+            $router->get('/', ['uses' => 'RoleController@index']);
+        });
+
     });
+
+
+
+
 });

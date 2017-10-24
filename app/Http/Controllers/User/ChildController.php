@@ -37,13 +37,17 @@ class ChildController extends ApiController
             }
         } else
         {
-            $existingUser = new User ($request->except('password', 'password_confirmation'));
-            $existingUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-            $existingUser->appendToNode($user);
-            $existingUser->save();
+            if($request->role_id === 1){
+                return $this->respondResourceConflict('There was problem creating your user');
+            }
+            $newUser = new User ($request->except('password', 'password_confirmation','role_id'));
+            $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
+            $newUser->appendToNode($user);
+            $newUser->save();
+            $newUser->roles()->attach($request->role_id);
             User::fixTree();
 
-            return $this->respondResourceCreated();
+            return $this->respondResourceCreated($newUser);
         }
 
     }
