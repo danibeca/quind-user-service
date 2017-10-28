@@ -79,12 +79,12 @@ class ChildController extends ApiController
 
             if ($request->has('password'))
             {
-                $password = $request->password;
+                /*$password = $request->password;
                 $passwordConfirmation = $request->password_confirmation;
                 if ($password === $passwordConfirmation)
-                {
+                {*/
                     $descendant->password = password_hash($request->password, PASSWORD_BCRYPT);
-                }
+                //}
             }
 
             $descendant->roles()->sync($request->get('role_id'));
