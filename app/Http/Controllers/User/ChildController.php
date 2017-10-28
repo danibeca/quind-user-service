@@ -8,7 +8,6 @@ use App\Utils\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class ChildController extends ApiController
 {
 
