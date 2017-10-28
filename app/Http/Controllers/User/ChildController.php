@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\User;
 use App\Http\Controllers\ApiController;
+use App\Utils\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,10 @@ class ChildController extends ApiController
     {
         /** @var User $user */
         $user = Auth::user();
-        return $this->respond(User::whereIn('id',$user->getDescendants()->pluck('id'))->with('roles')->get());
+
+        return $this->respond((new UserTransformer())->
+        transformCollection(User::whereIn('id', $user->getDescendants()->pluck('id'))
+            ->with('roles')->get()->toArray()));
     }
 
     public function store(Request $request)
@@ -36,10 +40,11 @@ class ChildController extends ApiController
             }
         } else
         {
-            if($request->role_id === 1){
+            if ($request->role_id === 1)
+            {
                 return $this->respondResourceConflict('There was problem creating your user');
             }
-            $newUser = new User ($request->except('password', 'password_confirmation','role_id'));
+            $newUser = new User ($request->except('password', 'password_confirmation', 'role_id'));
             $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
             $newUser->appendToNode($user);
             $newUser->save();
@@ -60,6 +65,7 @@ class ChildController extends ApiController
         {
             return $this->respond($descendant);
         }
+
         return $this->respondNotFound();
     }
 
