@@ -16,7 +16,7 @@ class ChildController extends ApiController
         /** @var User $user */
         $user = Auth::user();
 
-        return $this->respond($user->getDescendants());
+        return $this->respond(User::with('roles')->whereIn('id',$user->getDescendants()->pluck('id')))->get();
     }
 
     public function store(Request $request)
@@ -80,6 +80,7 @@ class ChildController extends ApiController
                 }
             }
             $descendant->update($request->except('password', 'password_confirmation'));
+            $descendant->roles()->sync([$request->role_id]);
 
             return $this->respond($descendant);
         }
