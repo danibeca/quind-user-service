@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-
 class UserController extends ApiController
 {
     public function getAuthUser()
@@ -16,6 +15,7 @@ class UserController extends ApiController
 
         /** @var User $user */
         $user = Auth::user();
+
         return $this->respond(User::with('roles')->whereId($user->id)->get()->first());
     }
 
@@ -37,25 +37,15 @@ class UserController extends ApiController
     {
         /** @var User $user */
         $user = Auth::user();
-        $existingUser = User::withTrashed()->where('email', $request->email)->first();
-        if($existingUser){
-            if(Auth::user() && Auth::user()->can('restore', $user)){
-                $existingUser->restore();
-                return $this->respondResourceRestored();
-            }else{
-                return $this->respondResourceConflict('User already exists');
-            }
 
+        $newUser = new User ($request->except('password', 'password_confirmation'));
+        $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $newUser->saveAsRoot();
+        $newUser->roles()->attach(2);
 
-        }else{
-            $newUser = new User ($request->except('password', 'password_confirmation'));
-            $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-            $newUser->saveAsRoot();
-            $newUser->roles()->attach(2);
+        $newUser::fixTree();
 
-            $newUser::fixTree();
-            return $this->respondResourceCreated($newUser);
-        }
+        return $this->respondResourceCreated($newUser);
     }
 
     public function show($id)
