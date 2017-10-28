@@ -70,10 +70,13 @@ class ChildController extends ApiController
 
     public function update(Request $request, $id)
     {
+        /** @var User $descendant */
         $descendant = User::find($id);
 
         if (Auth::user()->can('updateChild', $descendant))
         {
+            $descendant->fill($request->except('password', 'password_confirmation'));
+
             if ($request->has('password'))
             {
                 $password = $request->password;
@@ -83,8 +86,9 @@ class ChildController extends ApiController
                     $descendant->password = password_hash($request->password, PASSWORD_BCRYPT);
                 }
             }
-            $descendant->update($request->except('password', 'password_confirmation'));
+
             $descendant->roles()->sync([$request->role_id]);
+            $descendant->save();
 
             return $this->respond($descendant);
         }
