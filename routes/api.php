@@ -38,7 +38,7 @@ $router->group([
                 $router->get('/', ['uses' => 'ChildController@index']);
                 $router->post('/', ['as' => 'child.create', 'uses' => 'ChildController@store']);
                 $router->get('/{id:[\d]+}', ['as' => 'children.show', 'uses' => 'ChildController@show']);
-                $router->put('/{id:[\d]+}', ['as' => 'children.show', 'uses' => 'ChildController@show']);
+                $router->put('/{id:[\d]+}', ['as' => 'children.show', 'uses' => 'ChildController@update']);
                 $router->delete('/{id:[\d]+}', ['as' => 'children.show', 'uses' => 'ChildController@show']);
         });
 
