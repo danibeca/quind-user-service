@@ -15,7 +15,7 @@ class ChildController extends ApiController
     {
         /** @var User $user */
         $user = Auth::user();
-        return $this->respond(User::with('roles')->whereIn('id',$user->getDescendants()->pluck('id'))->get());
+        return $this->respond(User::whereIn('id',$user->getDescendants()->pluck('id'))->with('roles')->get());
     }
 
     public function store(Request $request)
