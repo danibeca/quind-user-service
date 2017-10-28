@@ -25,33 +25,19 @@ class ChildController extends ApiController
     {
         /** @var User $user */
         $user = Auth::user();
-        $existingUser = User::withTrashed()->where('email', $request->email)->first();
-        if ($existingUser)
-        {
-            if ($user && $user->can('restoreChild', $user))
-            {
-                $existingUser->restore();
 
-                return $this->respondResourceRestored();
-            } else
-            {
-                return $this->respondResourceConflict('User already exists');
-            }
-        } else
+        if ($request->role_id === 1)
         {
-            if ($request->role_id === 1)
-            {
-                return $this->respondResourceConflict('There was problem creating your user');
-            }
-            $newUser = new User ($request->except('password', 'password_confirmation', 'role_id'));
-            $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-            $newUser->appendToNode($user);
-            $newUser->save();
-            $newUser->roles()->attach($request->role_id);
-            User::fixTree();
-
-            return $this->respondResourceCreated($newUser);
+            return $this->respondResourceConflict('There was problem creating your user');
         }
+        $newUser = new User ($request->except('password', 'password_confirmation', 'role_id'));
+        $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $newUser->appendToNode($user);
+        $newUser->save();
+        $newUser->roles()->attach($request->role_id);
+        User::fixTree();
+
+        return $this->respondResourceCreated($newUser);
 
     }
 
@@ -83,7 +69,7 @@ class ChildController extends ApiController
                 $passwordConfirmation = $request->password_confirmation;
                 if ($password === $passwordConfirmation)
                 {*/
-                    $descendant->password = password_hash($request->password, PASSWORD_BCRYPT);
+                $descendant->password = password_hash($request->password, PASSWORD_BCRYPT);
                 //}
             }
 
@@ -104,10 +90,11 @@ class ChildController extends ApiController
         $user = Auth::user();
         if (Auth::user()->can('deleteChild', $user))
         {
-            $user  = User::find($id);
+            $user = User::find($id);
             $parentId = $user->parent_id;
             $children = $user->getDescendants();
-            foreach ($children as $child){
+            foreach ($children as $child)
+            {
                 $child->parent_id = $parentId;
                 $child->save();
             }
