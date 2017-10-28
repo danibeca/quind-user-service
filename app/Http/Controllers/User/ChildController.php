@@ -87,7 +87,7 @@ class ChildController extends ApiController
                 }
             }
 
-            $descendant->roles()->sync([$request->role_id]);
+            $descendant->roles()->sync([$request->get('role_id')]);
             $descendant->save();
 
             return $this->respond($descendant);
