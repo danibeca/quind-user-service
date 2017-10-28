@@ -104,7 +104,15 @@ class ChildController extends ApiController
         $user = Auth::user();
         if (Auth::user()->can('deleteChild', $user))
         {
-            User::find($id)->delete();
+            $user  = User::find($id);
+            $parentId = $user->parent_id;
+            $children = $user->getDescendants();
+            foreach ($children as $child){
+                $child->parent_id = $parentId;
+                $child->save();
+            }
+            $user->delete();
+            User::fixTree();
 
             return $this->respondResourceDeleted();
         }

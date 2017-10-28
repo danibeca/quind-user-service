@@ -18,14 +18,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as ResetContract;
 
 class User extends Model implements AuthenticatableContract, ResetContract, AuthorizableContract
 {
-    use HasApiTokens, Authenticatable, Authorizable, SoftDeletes, NodeTraitExt, CanResetPassword, Notifiable;
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
+    use HasApiTokens, Authenticatable, Authorizable, NodeTraitExt, CanResetPassword, Notifiable;
 
     /**
      * The attributes that are mass assignable.
