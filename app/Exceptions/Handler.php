@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Illuminate\Http\Response as IlluResponse;
 use Illuminate\Validation\ValidationException;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Utils\Helpers\ResponseHelper;
@@ -80,18 +81,22 @@ class Handler extends ExceptionHandler
             return $this->setStatusCode(IlluResponse::HTTP_SERVICE_UNAVAILABLE)->respondWithError("Service unavailable");
         }
 
+        return $this->renderSecurityExceptions($request, $e);
+    }
+
+    public function renderSecurityExceptions($request, Exception $e)
+    {
+        if ($e instanceof AuthenticationException)
+        {
+            return $this->setStatusCode(IlluResponse::HTTP_UNAUTHORIZED)->respondWithError("Service unavailable");
+        }
+
+        if ($e instanceof OAuthServerException)
+        {
+            return $this->setStatusCode(IlluResponse::HTTP_UNAUTHORIZED)->respondWithError("Service unavailable");
+        }
+
         return parent::render($request, $e);
     }
 
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Illuminate\Auth\AuthenticationException $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return $this->respondUnauthenticated();
-    }
 }
