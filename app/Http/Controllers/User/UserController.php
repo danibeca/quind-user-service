@@ -40,7 +40,15 @@ class UserController extends ApiController
 
         $newUser = new User ($request->except('password', 'password_confirmation'));
         $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
-        $newUser->saveAsRoot();
+        try
+        {
+            $newUser->saveAsRoot();
+        } catch (\Exception $e)
+        {
+            return $this->respondResourceConflict('User already exists');
+        }
+
+
         $newUser->roles()->attach(2);
 
         $newUser::fixTree();
