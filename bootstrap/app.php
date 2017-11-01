@@ -93,7 +93,6 @@ $app->routeMiddleware([
 |
 */
 
-$app->configure('swagger-lume');
 $app->configure('mail');
 $app->configure('cors');
 $app->configure('services');
@@ -118,7 +117,6 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 
-$app->register(\SwaggerLume\ServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);

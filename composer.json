@@ -9,8 +9,6 @@
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
         "dusterio/lumen-passport": "^0.2.0",
-        "doctrine/dbal": "^2.6",
-        "darkaonline/swagger-lume": "5.5.*",
         "kalnoy/nestedset": "^4.3",
         "illuminate/auth": "^5.5",
         "illuminate/mail": "^5.5",
