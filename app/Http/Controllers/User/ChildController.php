@@ -33,7 +33,14 @@ class ChildController extends ApiController
         $newUser = new User ($request->except('password', 'password_confirmation', 'role_id'));
         $newUser->password = password_hash($request->password, PASSWORD_BCRYPT);
         $newUser->appendToNode($user);
-        $newUser->save();
+        try
+        {
+            $newUser->save();
+        } catch (\Exception $e)
+        {
+            return $this->respondResourceConflict('User already exists');
+        }
+
         $newUser->roles()->attach($request->role_id);
         User::fixTree();
 
