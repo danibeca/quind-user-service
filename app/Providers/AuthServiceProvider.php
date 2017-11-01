@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Policies\UserPolicy;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,8 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         Gate::policy(User::class, UserPolicy::class);
+
+        Passport::tokensExpireIn(Carbon::now()->addHours(6));
 
         $this->app['auth']->viaRequest('api', function ($request) {
             if ($request->input('api_token')) {
