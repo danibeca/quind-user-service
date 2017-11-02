@@ -77,6 +77,7 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'rtoken' => App\Http\Middleware\ReadToken::class,
     'cors' => \Barryvdh\Cors\HandleCors::class,
     'log'  => App\Http\Middleware\LogActivity::class
 ]);
@@ -141,7 +142,7 @@ $app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
 // Call the LumenPassport::routes method within the boot method of your application.
 // This method will register the routes necessary to issue access tokens
 // and revoke access tokens, clients, and personal access tokens:
-Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/oauth', 'middleware' => ['cors', 'log']]);
+Dusterio\LumenPassport\LumenPassport::routes($app->router, ['prefix' => 'api/v1/oauth', 'middleware' => ['rtoken','cors', 'log']]);
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
