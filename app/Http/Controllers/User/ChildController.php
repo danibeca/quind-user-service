@@ -81,7 +81,13 @@ class ChildController extends ApiController
             }
 
             $descendant->roles()->sync($request->get('role_id'));
-            $descendant->save();
+            try
+            {
+                $descendant->save();
+            } catch (\Exception $e)
+            {
+                return $this->respondResourceConflict('User already exists');
+            }
 
             return $this->respond($descendant);
         }
